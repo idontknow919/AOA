@@ -1,0 +1,1179 @@
+
+int comp (const void * elem1, const void * elem2) 
+{
+    int f = *((int*)elem1);
+    int s = *((int*)elem2);
+    if (f > s) return  1;
+    if (f < s) return -1;
+    return 0;
+}
+qsort (x, sizeof(x)/sizeof(*x), sizeof(*x), comp);
+
+
+1.Selection Sort
+
+// C program for implementation of selection sort
+#include <stdio.h>
+
+void swap(int *xp, int *yp)
+{
+	int temp = *xp;
+	*xp = *yp;
+	*yp = temp;
+}
+
+void selectionSort(int arr[], int n)
+{
+	int i, j, min_idx;
+
+	// One by one move boundary of unsorted subarray
+	for (i = 0; i < n-1; i++)
+	{
+		// Find the minimum element in unsorted array
+		min_idx = i;
+		for (j = i+1; j < n; j++)
+		if (arr[j] < arr[min_idx])
+			min_idx = j;
+
+		// Swap the found minimum element with the first element
+		swap(&arr[min_idx], &arr[i]);
+	}
+}
+
+/* Function to print an array */
+void printArray(int arr[], int size)
+{
+	int i;
+	for (i=0; i < size; i++)
+		printf("%d ", arr[i]);
+	printf("\n");
+}
+
+// Driver program to test above functions
+int main()
+{
+	int arr[] = {64, 25, 12, 22, 11};
+	int n = sizeof(arr)/sizeof(arr[0]);
+	selectionSort(arr, n);
+	printf("Sorted array: \n");
+	printArray(arr, n);
+	return 0;
+}
+2. Bubble Sort:
+
+// C program for implementation of Bubble sort
+#include <stdio.h>
+
+void swap(int* xp, int* yp)
+{
+	int temp = *xp;
+	*xp = *yp;
+	*yp = temp;
+}
+
+// A function to implement bubble sort
+void bubbleSort(int arr[], int n)
+{
+	int i, j;
+	for (i = 0; i < n - 1; i++)
+
+		// Last i elements are already in place
+		for (j = 0; j < n - i - 1; j++)
+			if (arr[j] > arr[j + 1])
+				swap(&arr[j], &arr[j + 1]);
+}
+
+/* Function to print an array */
+void printArray(int arr[], int size)
+{
+	int i;
+	for (i = 0; i < size; i++)
+		printf("%d ", arr[i]);
+	printf("\n");
+}
+
+// Driver program to test above functions
+int main()
+{
+	int arr[] = { 64, 34, 25, 12, 22, 11, 90 };
+	int n = sizeof(arr) / sizeof(arr[0]);
+	bubbleSort(arr, n);
+	printf("Sorted array: \n");
+	printArray(arr, n);
+	return 0;
+}
+
+3. Insertion Sort:
+// C program for insertion sort
+#include <math.h>
+#include <stdio.h>
+
+/* Function to sort an array using insertion sort*/
+void insertionSort(int arr[], int n)
+{
+	int i, key, j;
+	for (i = 1; i < n; i++) {
+		key = arr[i];
+		j = i - 1;
+
+		/* Move elements of arr[0..i-1], that are
+		greater than key, to one position ahead
+		of their current position */
+		while (j >= 0 && arr[j] > key) {
+			arr[j + 1] = arr[j];
+			j = j - 1;
+		}
+		arr[j + 1] = key;
+	}
+}
+
+// A utility function to print an array of size n
+void printArray(int arr[], int n)
+{
+	int i;
+	for (i = 0; i < n; i++)
+		printf("%d ", arr[i]);
+	printf("\n");
+}
+
+/* Driver program to test insertion sort */
+int main()
+{
+	int arr[] = { 12, 11, 13, 5, 6 };
+	int n = sizeof(arr) / sizeof(arr[0]);
+
+	insertionSort(arr, n);
+	printArray(arr, n);
+
+	return 0;
+}
+4.Binary Search
+// C program to implement recursive Binary Search
+#include <stdio.h>
+
+// A recursive binary search function. It returns
+// location of x in given array arr[l..r] is present,
+// otherwise -1
+int binarySearch(int arr[], int l, int r, int x)
+{
+	if (r >= l) {
+		int mid = l + (r - l) / 2;
+
+		// If the element is present at the middle
+		// itself
+		if (arr[mid] == x)
+			return mid;
+
+		// If element is smaller than mid, then
+		// it can only be present in left subarray
+		if (arr[mid] > x)
+			return binarySearch(arr, l, mid - 1, x);
+
+		// Else the element can only be present
+		// in right subarray
+		return binarySearch(arr, mid + 1, r, x);
+	}
+
+	// We reach here when element is not
+	// present in array
+	return -1;
+}
+
+int main(void)
+{
+	int arr[] = { 2, 3, 4, 10, 40 };
+	int n = sizeof(arr) / sizeof(arr[0]);
+	int x = 10;
+	int result = binarySearch(arr, 0, n - 1, x);
+	(result == -1)
+		? printf("Element is not present in array")
+		: printf("Element is present at index %d", result);
+	return 0;
+}
+ 5.Merge Sort:
+/* C program for Merge Sort */
+#include <stdio.h>
+#include <stdlib.h>
+
+// Merges two subarrays of arr[].
+// First subarray is arr[l..m]
+// Second subarray is arr[m+1..r]
+void merge(int arr[], int l, int m, int r)
+{
+	int i, j, k;
+	int n1 = m - l + 1;
+	int n2 = r - m;
+
+	/* create temp arrays */
+	int L[n1], R[n2];
+
+	/* Copy data to temp arrays L[] and R[] */
+	for (i = 0; i < n1; i++)
+		L[i] = arr[l + i];
+	for (j = 0; j < n2; j++)
+		R[j] = arr[m + 1 + j];
+
+	/* Merge the temp arrays back into arr[l..r]*/
+	i = 0; // Initial index of first subarray
+	j = 0; // Initial index of second subarray
+	k = l; // Initial index of merged subarray
+	while (i < n1 && j < n2) {
+		if (L[i] <= R[j]) {
+			arr[k] = L[i];
+			i++;
+		}
+		else {
+			arr[k] = R[j];
+			j++;
+		}
+		k++;
+	}
+
+	/* Copy the remaining elements of L[], if there
+	are any */
+	while (i < n1) {
+		arr[k] = L[i];
+		i++;
+		k++;
+	}
+
+	/* Copy the remaining elements of R[], if there
+	are any */
+	while (j < n2) {
+		arr[k] = R[j];
+		j++;
+		k++;
+	}
+}
+
+/* l is for left index and r is right index of the
+sub-array of arr to be sorted */
+void mergeSort(int arr[], int l, int r)
+{
+	if (l < r) {
+		// Same as (l+r)/2, but avoids overflow for
+		// large l and h
+		int m = l + (r - l) / 2;
+
+		// Sort first and second halves
+		mergeSort(arr, l, m);
+		mergeSort(arr, m + 1, r);
+
+		merge(arr, l, m, r);
+	}
+}
+
+/* UTILITY FUNCTIONS */
+/* Function to print an array */
+void printArray(int A[], int size)
+{
+	int i;
+	for (i = 0; i < size; i++)
+		printf("%d ", A[i]);
+	printf("\n");
+}
+
+/* Driver code */
+int main()
+{
+	int arr[] = { 12, 11, 13, 5, 6, 7 };
+	int arr_size = sizeof(arr) / sizeof(arr[0]);
+
+	printf("Given array is \n");
+	printArray(arr, arr_size);
+
+	mergeSort(arr, 0, arr_size - 1);
+
+	printf("\nSorted array is \n");
+	printArray(arr, arr_size);
+	return 0;
+}
+
+6. Quick Sort:
+/* structure is used to return two values from minMax() */
+#include<stdio.h>
+struct pair
+{
+int min;
+int max;
+};
+
+struct pair getMinMax(int arr[], int low, int high)
+{
+struct pair minmax, mml, mmr;	
+int mid;
+
+// If there is only one element
+if (low == high)
+{
+	minmax.max = arr[low];
+	minmax.min = arr[low];	
+	return minmax;
+}
+
+/* If there are two elements */
+if (high == low + 1)
+{
+	if (arr[low] > arr[high])
+	{
+		minmax.max = arr[low];
+		minmax.min = arr[high];
+	}
+	else
+	{
+		minmax.max = arr[high];
+		minmax.min = arr[low];
+	}
+	return minmax;
+}
+
+/* If there are more than 2 elements */
+mid = (low + high)/2;
+mml = getMinMax(arr, low, mid);
+mmr = getMinMax(arr, mid+1, high);
+
+/* compare minimums of two parts*/
+if (mml.min < mmr.min)
+	minmax.min = mml.min;
+else
+	minmax.min = mmr.min;	
+
+/* compare maximums of two parts*/
+if (mml.max > mmr.max)
+	minmax.max = mml.max;
+else
+	minmax.max = mmr.max;	
+
+return minmax;
+}
+
+/* Driver program to test above function */
+int main()
+{
+int arr[] = {1000, 11, 445, 1, 330, 3000};
+int arr_size = 6;
+struct pair minmax = getMinMax(arr, 0, arr_size-1);
+printf("nMinimum element is %d", minmax.min);
+printf("nMaximum element is %d", minmax.max);
+getchar();
+}
+8. Fractional Knapsack
+# include<stdio.h>
+ 
+void knapsack(int n, float weight[], float profit[], float capacity) {
+   float x[20], tp = 0;
+   int i, j, u;
+   u = capacity;
+ 
+   for (i = 0; i < n; i++)
+      x[i] = 0.0;
+ 
+   for (i = 0; i < n; i++) {
+      if (weight[i] > u)
+         break;
+      else {
+         x[i] = 1.0;
+         tp = tp + profit[i];
+         u = u - weight[i];
+      }
+   }
+ 
+   if (i < n)
+      x[i] = u / weight[i];
+ 
+   tp = tp + (x[i] * profit[i]);
+ 
+   printf("\nThe result vector is:- ");
+   for (i = 0; i < n; i++)
+      printf("%f\t", x[i]);
+ 
+   printf("\nMaximum profit is:- %f", tp);
+ 
+}
+ 
+int main() {
+   float weight[20], profit[20], capacity;
+   int num, i, j;
+   float ratio[20], temp;
+ 
+   printf("\nEnter the no. of objects:- ");
+   scanf("%d", &num);
+ 
+   printf("\nEnter the wts and profits of each object:- ");
+   for (i = 0; i < num; i++) {
+      scanf("%f %f", &weight[i], &profit[i]);
+   }
+ 
+   printf("\nEnter the capacityacity of knapsack:- ");
+   scanf("%f", &capacity);
+ 
+   for (i = 0; i < num; i++) {
+      ratio[i] = profit[i] / weight[i];
+   }
+ 
+   for (i = 0; i < num; i++) {
+      for (j = i + 1; j < num; j++) {
+         if (ratio[i] < ratio[j]) {
+            temp = ratio[j];
+            ratio[j] = ratio[i];
+            ratio[i] = temp;
+ 
+            temp = weight[j];
+            weight[j] = weight[i];
+            weight[i] = temp;
+ 
+            temp = profit[j];
+            profit[j] = profit[i];
+            profit[i] = temp;
+         }
+      }
+   }
+ 
+   knapsack(num, weight, profit, capacity);
+   return(0);
+}
+
+9. 0/1 Knapsack:
+// A Dynamic Programming based
+// solution for 0-1 Knapsack problem
+#include <stdio.h>
+
+// A utility function that returns
+// maximum of two integers
+int max(int a, int b)
+{
+	return (a > b) ? a : b;
+}
+
+// Returns the maximum value that
+// can be put in a knapsack of capacity W
+int knapSack(int W, int wt[], int val[], int n)
+{
+	int i, w;
+	int K[n + 1][W + 1];
+
+	// Build table K[][] in bottom up manner
+	for (i = 0; i <= n; i++)
+	{
+		for (w = 0; w <= W; w++)
+		{
+			if (i == 0 || w == 0)
+				K[i][w] = 0;
+			else if (wt[i - 1] <= w)
+				K[i][w] = max(val[i - 1]
+						+ K[i - 1][w - wt[i - 1]],
+						K[i - 1][w]);
+			else
+				K[i][w] = K[i - 1][w];
+		}
+	}
+
+	printf("Maximum value we can obtain =%d\n",K[n][W]);
+	i=n;
+	int j=W;
+	int ans[n+1];
+	for(int i=0;i<=n;i++){
+	    ans[i]=0;
+	}
+	while(i>0 && j>0){
+	    if(K[i][j]==K[i-1][j]){
+	        i--;
+	    }else{
+	        ans[i]=1;
+	        i--;
+	        j=j-wt[i];
+	    }
+	}printf("The elements selected are:\n");
+	for(int i=1;i<=n;i++){
+	    printf("%d=%d ",i,ans[i]);
+	}
+}
+
+// Driver Code
+int main()
+{
+	int val[] = { 60, 100, 120 };
+	int wt[] = { 10, 20, 30 };
+	int W = 50;
+	int n = sizeof(val) / sizeof(val[0]);
+// 	printf("%d", ;
+    knapSack(W, wt, val, n);
+	return 0;
+}
+10. Job scheduling
+/******************************************************************************
+
+                            Online C Compiler.
+                Code, Compile, Run and Debug C program online.
+Write your code in this editor and press "Run" button to compile and execute it.
+
+*******************************************************************************/
+
+
+#include <conio.h>
+#include <stdio.h>
+int n, i, j, k, t;
+int check(int s[], int p)
+{
+    int ptr = 0;
+    for (int i = 0; i < n; i++)
+    {
+        if (s[i] == p)
+            ptr++;
+    }
+    if (ptr == 0)
+        return 1;
+    else
+        return 0;
+}
+
+int main()
+{
+    printf("enter the no of jobs      : ");
+    scanf("%d", &n);
+    int slot[n], p[n], d[n];
+    for (i = 0; i < n; i++)
+    {
+        printf("\n enter the profit of job #%d      :", i + 1);
+        scanf("%d", &p[i]);
+        printf("\n enter the deadline of job #%d    :", i + 1);
+        scanf("%d", &d[i]);
+    }
+
+    for (i = 0; i < n; i++)
+        for (j = i + 1; j < n; j++)
+            if (p[i] < p[j])
+            {
+                t = p[i];
+                p[i] = p[j];
+                p[j] = t;
+                t = d[i];
+                d[i] = d[j];
+                d[j] = t;
+            }
+
+    for (i = 0; i < n; i++)
+        slot[i] = 0;
+
+    for (i = 0; i < n; i++)
+        for (j = d[i]; j > 0; j--)
+        {
+            if (check(slot, j) == 1)
+            {
+                slot[i] = j;
+                break;
+            }
+        }
+
+    printf("\n\n INDEX   PROFIT  DEADLINE  SLOT ALLOTTED ");
+    for (i = 0; i < n; i++)
+    {
+        if (slot[i] > 0)
+            printf("\n\n   %d       %d        %d        [%d - %d]", i + 1, p[i], d[i], (slot[i] - 1), slot[i]);
+        else
+            printf("\n\n   %d       %d        %d       REJECTED", i + 1, p[i], d[i]);
+    }
+
+    getch();
+}
+
+12. LCS
+/******************************************************************************
+
+                            Online C Compiler.
+                Code, Compile, Run and Debug C program online.
+Write your code in this editor and press "Run" button to compile and execute it.
+
+*******************************************************************************/
+#include<stdio.h>
+#include <string.h>
+ 
+int max(int a, int b);
+int lcs( char *X, char *Y, int m, int n )
+{
+    int L[m+1][n+1];
+    int i, j;
+
+    for (i=0; i<=m; i++)
+    {
+        for (j=0; j<=n; j++)
+        {
+        if (i == 0 || j == 0)
+            L[i][j] = 0;
+
+        else if (X[i] == Y[j])
+            L[i][j] = L[i-1][j-1] + 1;
+
+        else
+            L[i][j] = max(L[i-1][j], L[i][j-1]);
+        }
+    }
+    return L[m][n];
+}
+ 
+int max(int a, int b)
+{
+    return (a > b)? a : b;
+}
+ 
+int main()
+{
+    char X[10000], Y[10000];
+    scanf("%s", X);
+    scanf("%s", Y);
+    int m = strlen(X);
+    int n = strlen(Y);
+
+    printf("%d", lcs( X, Y, m, n ) );
+
+    return 0;
+}
+13.String matching
+#include <stdio.h>  // Basic I/O
+#include <stdlib.h> // Standard Library
+#include <string.h> // String Library
+
+#define BUFFER_SIZE 1024
+void naiveStringMatching(char *text, char *pattern, int textSize, int patternSize) {
+    for (int i = 0; i < textSize - patternSize + 1; i++) {
+       for (int j = 0; j < patternSize; j++) {
+            if (text[i + j] != pattern[j]) {
+                break;
+            }
+           if (j == patternSize - 1) {
+                printf("Match found at index %d\n", i);
+            }
+        }
+    }
+}
+int main() {
+    char text[BUFFER_SIZE];
+    char pattern[BUFFER_SIZE];
+    printf("Enter the text: ");
+    scanf("%[^\n]%*c", text);
+    printf("Enter the pattern: ");
+    scanf("%[^\n]%*c", pattern);
+    int textSize = strlen(text);
+    int patternSize = strlen(pattern);
+    naiveStringMatching(text, pattern, textSize, patternSize);
+
+    return 0;
+}
+14.Floyd Warshall
+// C Program for Floyd Warshall Algorithm
+#include<stdio.h>
+
+#define V 4
+
+#define INF 99999
+
+void printSolution(int dist[][V]);
+void floydWarshall (int graph[][V])
+{
+	int dist[V][V], i, j, k;
+
+	for (i = 0; i < V; i++)
+		for (j = 0; j < V; j++)
+			dist[i][j] = graph[i][j];
+
+	for (k = 0; k < V; k++)
+	{
+		for (i = 0; i < V; i++)
+		{
+			for (j = 0; j < V; j++)
+			{
+				if (dist[i][k] + dist[k][j] < dist[i][j])
+					dist[i][j] = dist[i][k] + dist[k][j];
+			}
+		}
+	}
+
+	printSolution(dist);
+}
+
+void printSolution(int dist[][V])
+{
+	printf ("The following matrix shows the shortest distances"
+			" between every pair of vertices \n");
+	for (int i = 0; i < V; i++)
+	{
+		for (int j = 0; j < V; j++)
+		{
+			if (dist[i][j] == INF)
+				printf("%7s", "INF");
+			else
+				printf ("%7d", dist[i][j]);
+		}
+		printf("\n");
+	}
+}
+int main()
+{
+	int graph[V][V] = { {0, 5, INF, 10},
+						{INF, 0, 3, INF},
+						{INF, INF, 0, 1},
+						{INF, INF, INF, 0}
+					};
+
+	// Print the solution
+	floydWarshall(graph);
+	return 0;
+}
+15. Prims
+
+#include <stdio.h>  // Basic I/O
+#include <stdlib.h> // Standard library
+
+// Main function
+int main() {
+    // Take input for number of vertices
+    int num;
+    printf("Enter the number of vertices: ");
+    scanf("%d", &num);
+
+    // Dynamically allocate memory for the graph
+    int **adjMatrix = (int **)malloc(num * sizeof(int *));
+    for (int i = 0; i < num; i++) {
+        adjMatrix[i] = (int *)malloc(num * sizeof(int));
+    }
+
+    // Insert weights into the graph
+    for (int i = 0; i < num; i++) {
+        for (int j = 0; j < num; j++) {
+            scanf("%d", &adjMatrix[i][j]);
+            // If the weight is 0, then set it to infinity
+            if (adjMatrix[i][j] == 0) {
+                adjMatrix[i][j] = INT_MAX;
+            }
+            // Also add to mirror edge
+            adjMatrix[j][i] = adjMatrix[i][j];
+        }
+    }
+
+    // Create a visited array and set all vertices to unvisited
+    int *visited = (int *)malloc(num * sizeof(int));
+    for (int i = 0; i < num; i++) {
+        visited[i] = 0;
+    }
+
+    // Variables
+    int min = INT_MAX;   // A variable to get the minimum weight edge. Initialize it to infinity
+    int v1, v2;          // Two vertices of the edge
+    int numVisited = 0;  // Number of vertices visited
+    int totalWeight = 0; // Total weight of the MST
+
+    // Visit the first vertex, vertex 0
+    visited[0] = 1;
+    numVisited++;
+
+    // While there are unvisited vertices and the number of vertices visited is less than the number of vertices
+    while (numVisited < num) {
+        // Find the minimum weight edge (Iterate through the adjacency matrix)
+        for (int i = 0; i < num; i++) {
+            for (int j = 0; j < num; j++) {
+                // If the first vertex is in MST and the second vertex is not in MST
+                // (the edge is across the border)
+                if (adjMatrix[i][j] < min && visited[i] != 0 && visited[j] == 0) {
+                    // Update the minimum weight edge
+                    min = adjMatrix[i][j];
+                    v1 = i;
+                    v2 = j;
+                }
+            }
+        }
+
+        // Add the edge to the MST
+        printf("Edge %d-%d is added to the MST\n", v1, v2);
+        totalWeight += min;
+
+        // Mark the vertices as visited
+        visited[v1] = 1;
+        visited[v2] = 1;
+
+        // Reset the minimum weight
+        min = INT_MAX;
+        numVisited++;
+    }
+
+    // Print the total weight of the MST
+    printf("Total weight of the MST is %d\n", totalWeight);
+
+    // Free the memory
+    for (int i = 0; i < num; i++) {
+        free(adjMatrix[i]);
+    }
+    free(adjMatrix);
+    free(visited);
+
+    return 0;
+}
+16.Kruskal
+#include <stdio.h>  // Basic I/O
+#include <stdlib.h> // Standard Library
+
+// Structure to store the edges
+typedef struct Edge {
+    int src;
+    int dest;
+    int weight;
+} Edge;
+
+// Compare function to sort the edges
+int compare(const void *a, const void *b) {
+    return ((*(Edge *)a).weight - (*(Edge *)b).weight);
+}
+
+// Utility Function to find the subset of an element i
+int find(int parent[], int i) {
+    // While the parent of i is not -1
+    if (parent[i] == -1) {
+        return i;
+    }
+    return find(parent, parent[i]);
+}
+
+// Utility Function to do union of two subsets (Returns whether union was successful)
+int Union(int parent[], int x, int y) {
+    // Find the subsets of x and y
+    parent[x] = y;
+}
+
+// Kruskal's Algorithm
+int kruskalMST(int **graph, int V, int E) {
+
+    // Dynamic array to store the edges
+    Edge *edges = (Edge *)malloc(E * sizeof(Edge));
+
+    int edgeCounter = 0;
+
+    // Update the edges array with the edges from the graph. Consider only upper triangular matrix
+    for (int i = 0; i < V; i++) {
+        for (int j = i + 1; j < V; j++) {
+            if (graph[i][j] != INT_MAX) {
+                edges[edgeCounter].src = i;
+                edges[edgeCounter].dest = j;
+                edges[edgeCounter].weight = graph[i][j];
+                edgeCounter++;
+            }
+        }
+    }
+
+    // Sort the edges in ascending order of their weights
+    qsort(edges, E, sizeof(Edge), compare);
+
+    // Initialize the parent array
+    int *parent = (int *)malloc(V * sizeof(int));
+    for (int i = 0; i < V; i++) {
+        parent[i] = -1;
+    }
+
+    // Initialize the MST
+    int MST_weight = 0;
+
+    // Iterate over the edges
+    for (int i = 0; i < E; i++) {
+        int x, y;
+        x = find(parent, edges[i].src);
+        y = find(parent, edges[i].dest);
+
+        // If the two vertices are not in the same subset
+        if (x != y) {
+            // Add the edge to the MST
+            MST_weight += edges[i].weight;
+
+            // Show which edge is added to the MST
+            printf("Edge %d-%d with weight %d is added to the MST\n", edges[i].src, edges[i].dest, edges[i].weight);
+
+            // Union the two subsets
+            Union(parent, x, y);
+        }
+    }
+
+    // Return the MST weight
+    return MST_weight;
+}
+
+// Main function
+int main() {
+    // Take input for number of vertices
+    int vertices, edges = 0;
+    printf("Enter number of vertices: ");
+    scanf("%d", &vertices);
+
+    // Dynamically allocate memory for adjacency matrix
+    int **adjMatrix = (int **)malloc(vertices * sizeof(int *));
+    for (int i = 0; i < vertices; i++) {
+        adjMatrix[i] = (int *)malloc(vertices * sizeof(int));
+    }
+
+    // Take input for adjacency matrix
+    printf("Enter adjacency matrix: \n");
+    for (int i = 0; i < vertices; i++) {
+        for (int j = 0; j < vertices; j++) {
+            scanf("%d", &adjMatrix[i][j]);
+            // If the value is 0, then set the edge to infinity
+            if (adjMatrix[i][j] == 0) {
+                adjMatrix[i][j] = INT_MAX;
+            } else {
+                // Else, increment the number of edges
+                edges++;
+            }
+            // Mirror the adjacency matrix
+            adjMatrix[j][i] = adjMatrix[i][j];
+        }
+    }
+
+    // Divide the edges by 2
+    edges /= 2;
+
+    // Print newline
+    printf("\n");
+
+    // Call Kruskal's Algorithm
+    int minEdgeWeight = kruskalMST(adjMatrix, vertices, edges);
+
+    // Print the minimum spanning tree weight
+    printf("\nThe minimum spanning tree weight is: %d\n", minEdgeWeight);
+
+    return 0;
+}
+17.Dijikstra
+#include <stdio.h>  // Basic I/O
+#include <stdlib.h> // Standard Library
+
+// Defines
+#define min(a, b) ((a) < (b) ? (a) : (b))
+
+// A utility function to find the closest vertex not in sptSet
+int minDistance(int dist[], int sptSet[], int V) {
+    // Initialize min value
+    int min = INT_MAX,
+        min_index;
+
+    // Loop through all vertices
+    for (int v = 0; v < V; v++) {
+        // If vertex not in sptSet and distance is smaller than min
+        if (sptSet[v] == 0 && dist[v] < min) {
+            min = dist[v];
+            min_index = v;
+        }
+    }
+    return min_index;
+}
+
+// Dijkstra's Algorithm Function (prints the shortest distance between a given source vertex and all other vertices in a given graph)
+// Syntax: dijkstra(adjacencyMatrix, numberOfVertices, sourceVertex)
+void dijkstra(int **Graph, int V, int sourceVertex) {
+    // Initialize the distance array with INT_MAX
+    int *distance = (int *)malloc(V * sizeof(int));
+    for (int i = 0; i < V; i++) {
+        distance[i] = INT_MAX; // infinity
+    }
+    // Initialize the sptSet array with false
+    int *sptSet = (int *)malloc(V * sizeof(int));
+    for (int i = 0; i < V; i++) {
+        sptSet[i] = 0; // 0 means false
+    }
+
+    // Distance of source vertex from itself is 0
+    distance[sourceVertex] = 0;
+
+    // Loop through all vertices except itself
+    for (int count = 0; count < V - 1; count++) {
+        // Pick the vertex with minimum distance from the set of vertices not yet processed
+        int u = minDistance(distance, sptSet, V);
+
+        // Mark the picked vertex as club member of sptSet
+        sptSet[u] = 1;
+
+        // Update the distance value of the adjacent vertices of the picked vertex
+        for (int v = 0; v < V; v++) {
+            // If vertex is not in sptSet and distance of vertex is not infinity and distance of vertex is smaller than distance of picked vertex, then update the distance of vertex
+            // This is the only difference between Dijkstra's Algorithm and Bellman-Ford's Algorithm
+
+            if (sptSet[v] == 0 && Graph[u][v] && distance[u] != INT_MAX && distance[u] + Graph[u][v] < distance[v]) {
+                distance[v] = distance[u] + Graph[u][v];
+            }
+
+            // Above, sptSet[v] == 0 means that vertex is not in sptSet
+            // Graph[u][v] being true means that there is an edge between u and v
+            // distance[u] != INT_MAX means that u is not the source vertex
+            // distance[u] + Graph[u][v] < distance[v] means that the distance of v is greater than the distance of u plus the weight of the edge between u and v
+        }
+    }
+    // Print the shortest distance between a given source vertex and all other vertices in a given graph
+    printf("\n");
+    for (int i = 0; i < V; i++) {
+        printf("Distance of\t%d\tfrom\t%d\tis\t%d\n", i, sourceVertex, distance[i]);
+    }
+    printf("\n");
+}
+
+// Main function
+int main() {
+    // Take input for number of vertices
+    int V;
+    printf("Enter the number of vertices: ");
+    scanf("%d", &V);
+
+    // Dynamically allocate memory for adjacency matrix
+    int **Graph = (int **)malloc(V * sizeof(int *));
+    for (int i = 0; i < V; i++) {
+        Graph[i] = (int *)malloc(V * sizeof(int));
+    }
+
+    // Take input for adjacency matrix
+    printf("Enter the adjacency matrix: \n");
+    for (int i = 0; i < V; i++) {
+        for (int j = 0; j < V; j++) {
+            scanf("%d", &Graph[i][j]);
+        }
+    }
+
+    // Take input for source vertex
+    int sourceVertex;
+    printf("Enter the source vertex: ");
+    scanf("%d", &sourceVertex);
+
+    // Call Dijkstra's Algorithm
+    dijkstra(Graph, V, sourceVertex);
+
+    // Free memory
+    for (int i = 0; i < V; i++) {
+        free(Graph[i]);
+    }
+    free(Graph);
+    return 0;
+}
+18. sum of subset:
+#include <stdio.h>  // Basic I/O
+#include <stdlib.h> // Standard Library
+
+// Print subsets found
+void printSubset(int *subset, int size) {
+    // Use {}
+    printf("\n{");
+    for (int i = 0; i < size; i++) {
+        printf("%d", subset[i]);
+        if (i != size - 1) {
+            printf(", ");
+        }
+    }
+    printf("}\n");
+}
+
+// subsetSum function (recursive)
+// Syntax : subsetSum(given Array, size of array, sum to be found, current partial sum, current subset, current subset size, pointer to an element of given Array)
+void subsetSum(int *arr, int *tup, int size, int tupSize, int nodePtr, int partialSum, int const targetSum) {
+    // If the current partial sum is equal to the sum, print the subset
+    if (partialSum == targetSum) {
+        // We have found a subset
+        printSubset(tup, tupSize);
+
+        // constraint check
+        // nodePtr is the last element of the subset
+        // Check if removing it and adding the next element will not violate the constraint
+        if (nodePtr + 1 < size && partialSum - arr[nodePtr] + arr[nodePtr + 1] <= targetSum) {
+            // Exclude last element and consider next candidate
+            subsetSum(arr, tup, size, tupSize, nodePtr + 1, partialSum - arr[nodePtr], targetSum);
+            // Here
+            // arr is the array to be considered
+            // size is the size of the array
+            // targetSum is the sum to be found
+            // partialSum is updated to remove the last element
+            // subset is the purse which contains the subset
+            // subsetSize is updated to remove the last element
+            // nodePtr is the pointer to the last element of the subset, it is updated to point to the next element
+        }
+        return;
+    } else {
+        // If the current partial sum is not equal to the sum, consider adding the next element
+        // If the current partial sum + the next element is less than the sum, add the next element
+        if (partialSum + arr[nodePtr] <= targetSum && nodePtr < size) {
+            // Generate nodes along the breadth
+
+            // Using for loop to generate nodes from node ptr to the end of the array
+            for (int i = nodePtr; i < size; i++) {
+                // Put the current element in the subset
+                tup[tupSize] = arr[i];
+
+                // If still the sum is not equal to the target sum, consider adding the next element
+                if (partialSum + arr[i] <= targetSum) {
+                    // Recursive call
+                    subsetSum(arr, tup, size, tupSize + 1, i + 1, partialSum + arr[i], targetSum);
+                    // Here
+                    // arr is the array to be considered
+                    // size is the size of the array
+                    // targetSum is the sum to be found
+                    // partialSum is the sum after adding current node
+                    // subset is the purse which contains the subset
+                    // subsetSize is the size of the subset
+                    // nodePtr is updated to point to the next element
+                }
+            }
+        }
+    }
+}
+
+// Wrapper function to compute all the subsets
+void subsetsEqualToSum(int *arr, int size, int targetSum) {
+    // A purse to keep track of which elements form a subset
+    int *tupletVector = (int *)malloc(size * sizeof(int));
+
+    // Calculate the total sum of the array
+    int totalSum = 0;
+    for (int i = 0; i < size; i++) {
+        totalSum += arr[i];
+    }
+
+    // Sort the array (optional)
+    // Selection sort
+    int temp;
+    for (int i = 0; i < size; i++) {
+        for (int j = i + 1; j < size; j++) {
+            if (arr[i] > arr[j]) {
+                temp = arr[i];
+                arr[i] = arr[j];
+                arr[j] = temp;
+            }
+        }
+    }
+
+    // If the targetSum is more than the smallest element and lower than the total sum,
+    if (targetSum >= arr[0] && targetSum <= totalSum) {
+        // Call function on the first element node
+        subsetSum(arr, tupletVector, size, 0, 0, 0, targetSum);
+    }
+
+    // Free the memory
+    free(tupletVector);
+}
+
+// Main function
+int main() {
+
+    // Take input for the number of elements
+    int size;
+    printf("Enter the number of elements: ");
+    scanf("%d", &size);
+
+    // Take input for the elements
+    int *arr = (int *)malloc(size * sizeof(int));
+    printf("Enter the elements: ");
+    for (int i = 0; i < size; i++) {
+        scanf("%d", &arr[i]);
+    }
+
+    // Take input for the sum
+    int targetSum;
+    printf("Enter the sum: ");
+    scanf("%d", &targetSum);
+
+    // Call the function
+    subsetsEqualToSum(arr, size, targetSum);
+
+    // Free the memory
+    free(arr);
+
+    return 0;
+}
